@@ -22,15 +22,30 @@ app.get('/api/quotes', (req, res, next) => {
     const person = req.query.person;
     if (person) {
         const personQuotes = quotes.filter(quote => quote.person === person);
-        console.log(personQuotes);
         res.send({
             quotes: personQuotes
         })
         
     } else {
         res.send({
-            quotes: []
+            quotes: quotes
         })
     }
 })
 
+app.post('/api/quotes', (req, res, next) => {
+    const newQuote = req.query;
+    if (newQuote) {
+        console.log(newQuote);
+        const quoteObject = {
+            quote: newQuote.quote,
+            person: newQuote.person
+        }
+        quotes.push(quoteObject)
+        res.send({
+            quote: quoteObject
+        })
+    } else {
+        res.status(400).send();
+    }
+})
